@@ -1,0 +1,39 @@
+<script>
+    do {
+        var mobilotor=prompt('pakai apa?\n1.Mobil\n2.Motor')
+        if(!(mobilotor==1||mobilotor==2)){
+           alert('ulangin woy')
+        }
+    } while (!(mobilotor==1||mobilotor==2));
+    var masukjam=parseInt(prompt('masuk jam berapa (0-11)'))
+    var kondisi1=prompt('1.AM\n2.PM')
+    var keluarjam=parseInt(prompt('keluar jam berapa?'))
+    var kondisi2=prompt('1.AM\n2.PM')
+    var totaljam
+    if(kondisi1!==kondisi2){
+        keluarjam+=12
+    }else if(keluarjam<=masukjam && kondisi1==kondisi2){
+        keluarjam+=24
+    }
+    totaljam=keluarjam-masukjam
+    // var biayaperjam
+    var biayaperjammotor=1000
+    var biayaperjammobil=2000
+    var biaya2jamper=5000
+    var biaya2jampermot=3000
+    var totalbayar
+    if(totaljam<=2){
+        if(mobilotor==1){
+            totalbayar=biaya2jamper*totaljam
+        }else{
+            totalbayar=biaya2jampermot*totaljam
+        }
+    }else{
+        if(mobilotor==1){
+            totalbayar=((totaljam-2)*biayaperjammobil)+(biaya2jamper*2)
+        }else{
+            totalbayar=((totaljam-2)*biayaperjammotor)+(biaya2jampermot*2)
+        }
+    }
+    alert('kamu parkir '+totaljam+ ' jam biaya Rp.'+totalbayar)
+</script>
