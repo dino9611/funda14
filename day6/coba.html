@@ -1,0 +1,354 @@
+<html>
+    <head>
+        <title>Toko Buah DIY</title>
+    </head>
+
+    <script>
+        var namaBuah=["Jeruk","Mangga","Salak"]
+        var stokBuah=[20,15,30]
+        var hargaBuah=[38800,42000,14900]
+        var cartQty=[0,0,0]
+        var totalSemuaBiaya=""
+        var usernameAR=[]
+        var passwordAR=[]
+        var condHomeMenuPass, condMenuBelanjaPass, condMenuBeliBuahPass, condMenuJumlahBeliPass, condMenuBayarPass, condBelanjaLagiPass;
+        var condMenuAdminPass, condMenuLoginPass, condHapusBuah, condEditBuah, condTambahBuah
+
+        alert("Selamat datang di Toko Buah DIY")
+        
+        console.log("homeMenu")
+        do {   
+            // Masuk ke homeMenu                                                                                    
+            var condHomeMenu=parseInt(prompt("Menu Utama:\n1. Mulai Belanja\n2. Menu Admin\n3. Keluar"))
+            if (condHomeMenu==1) {  
+                // Masuk ke menuBelanja
+                do {                                                                                           
+                    console.log("menuBelanja")
+                    console.log(cartQty)
+                    // Loop Jumlah Pembelian di Keranjang
+                    var outputCartQty=""                                        // Loop untuk hitung Total Semua biaya masing masing buah
+                    for (x=0;x<=stokBuah.length-1;x++){
+                        if (cartQty[x]>0) {
+                            outputCartQty=outputCartQty+namaBuah[x]+`: `+cartQty[x]+` kg. Jumlah Biaya: Rp `+(cartQty[x]*hargaBuah[x]).toLocaleString(undefined, {maximumFractionDigits:3})+"\n"
+                        } else {
+                            outputCartQty=outputCartQty+""
+                            totalSemuaBiaya=totalSemuaBiaya
+                        }
+                    }
+                    console.log(namaBuah)
+                    console.log("Keranjang "+cartQty)
+                    console.log("Stok "+stokBuah)
+                    console.log("Harga "+hargaBuah)
+                    var menuBelanja=prompt("Keranjang Anda:\n"+outputCartQty+"\n"+"Menu Belanja:\n1. Beli Buah dan Ganti Jumlah\n2. Bayar\n3. Keluar")
+                    
+                    if (menuBelanja==1) {   
+                        // Masuk ke menuBeliBuah                                                                           
+                        console.log("menuBeliBuah")
+                        var outputBuah=""
+                        for (x=0;x<=namaBuah.length-1;x++){
+                            outputBuah=outputBuah+(x+1)+". "+namaBuah[x]+", Harga: Rp "+hargaBuah[x].toLocaleString(undefined, {maximumFractionDigits:3})+"/kg. (Stok : "+stokBuah[x]+")\n"
+                        }
+                        console.log(outputBuah)
+                        do {
+                            alert("Untuk mengganti jumlah pembelian atau membatalkan pembelian suatu buah, cukup pilih buahnya dan ganti jumlahnya. Jika 0 maka dihapus")
+                            var beliBuah=parseInt(prompt("Ingin beli buah apa?\n"+outputBuah+"\n0. Keluar\nHanya masukkan angka yang berada di kiri nama buah dan 0 untuk keluar"))-1
+                            if (beliBuah=="-1") {
+                                condMenuBeliBuahPass=true
+                                
+                            
+                            } else if(beliBuah>=0&&beliBuah<=namaBuah.length-1){
+                                do {
+                                    jumlahBeli=parseInt(prompt(namaBuah[beliBuah]+", Harga: Rp "+hargaBuah[beliBuah].toLocaleString(undefined, {maximumFractionDigits:3})+"/kg. (Stok : "+stokBuah[beliBuah]+")\nIngin beli berapa?"))
+                                    if (jumlahBeli>stokBuah[beliBuah]) {
+                                        alert("Maaf stok kami hanya "+stokBuah[beliBuah]+" kg")
+                                    } else if (Object.is(jumlahBeli, NaN)) {
+                                        alert("Hanya angka. Tidak boleh kosong atau huruf. Nol (0) untuk menghapus dari keranjang atau batal beli")
+                                    } else {
+                                        cartQty[beliBuah]=jumlahBeli
+                                        console.log(cartQty[beliBuah]+" "+namaBuah[beliBuah])
+                                        condMenuJumlahBeliPass=true
+                                        condMenuBeliBuahPass=true
+                                        alert("Berhasil di Tambahkan")
+                                    }
+
+                                } while(!condMenuJumlahBeliPass)
+                                condMenuJumlahBeliPass=false
+                            } else {alert("Hanya memasukkan angka sesuai buah yang tersedia")}                         
+                        } while(!condMenuBeliBuahPass)
+                        condMenuBeliBuahPass=false
+
+                    } else if (menuBelanja==2) {
+                        for (x=0;x<=stokBuah.length-1;x++){                                                 // Loop untuk hitung total Semua biaya dari
+                                if (cartQty[x]>0) {
+                                 totalSemuaBiaya=parseInt(totalSemuaBiaya+(cartQty[x]*hargaBuah[x]))
+                                } else{
+                                    totalSemuaBiaya=totalSemuaBiaya
+                                }
+                            }
+                        do {
+                            console.log("Masuk ke menuBayar")
+                            console.log(stokBuah+" Stok sebelum bayar")
+                            console.log(cartQty+" Keranjang sebelum bayar")
+                            var jumlahUang=parseInt(prompt("Keranjang Anda:\n"+outputCartQty+"Total Semua Biaya: Rp "+totalSemuaBiaya.toLocaleString(undefined, {maximumFractionDigits:3})+"\n0. Batal dan Lanjutkan Belanja\nMasukkan jumlah pembayaran anda:"))
+                            if (totalSemuaBiaya==jumlahUang) {
+                                alert("Pembayaran Lunas. Terima Kasih")
+                                condMenuBayarPass=true
+                                for (x=0;x<=namaBuah.length-1;x++){
+                                    if (cartQty[x]>0){
+                                        stokBuah[x]=stokBuah[x]-(cartQty[x])
+                                        cartQty[x]=0
+                                    }
+                                }
+                            } else if (totalSemuaBiaya<jumlahUang) {
+                                alert(`Pembayaran Lunas. Kembalian uang Anda sebesar Rp ${(jumlahUang-totalSemuaBiaya).toLocaleString(undefined, {maximumFractionDigits:3})}.\nTerima kasih.`)
+                                condMenuBayarPass=true
+                                for (x=0;x<=namaBuah.length-1;x++){
+                                    if (cartQty[x]>0){
+                                        stokBuah[x]=stokBuah[x]-cartQty[x]
+                                        cartQty[x]=0
+                                    }
+                                }
+                            } else if (jumlahUang==0) {
+                                condMenuBayarPass=true
+                            } else if (totalSemuaBiaya>jumlahUang) {
+                                alert(`Pembayaran belum lunas. Uang Anda kurang sebanyak ${(totalSemuaBiaya-jumlahUang).toLocaleString(undefined, {maximumFractionDigits:3})}.`); condition=false
+                            } else if (Object.is(jumlahUang, NaN)) {
+                                alert("Masukkan hanya angka tanpa titik dan bukan huruf atau kosong")
+                            }
+                        } while (!condMenuBayarPass)
+                        totalSemuaBiaya=0
+                        condMenuBayarPass=false
+                        do{
+                            if (jumlahUang==0) {
+                                condBelanjaLagiPass=true
+                            } else {
+                                var stokBuahSemua=0
+                                for(x=0;x<=namaBuah.length-1;x++){
+                                    stokBuahSemua=parseInt(stokBuahSemua)+parseInt(stokBuah[x])
+                                }
+                                var belanjaLagi=parseInt(prompt("Mau belanja lagi?\n1.Belanja Lagi\n2.Tidak"))
+                                if (belanjaLagi==1&&stokBuahSemua==0){
+                                    alert("Maaf stok kami habis semua")
+                                    condBelanjaLagiPass=true
+                                    condMenuBelanjaPass=true
+                                } else if (belanjaLagi==1) {
+                                    condBelanjaLagiPass=true
+                                } else if (belanjaLagi==2) {
+                                    condBelanjaLagiPass=true
+                                    condMenuBelanjaPass=true
+                                    condHomeMenuPass=false
+                                    
+                                    
+                                }
+                            }
+                        } while (!condBelanjaLagiPass)
+                    } else if (menuBelanja==3) {
+                        condMenuBelanjaPass=true
+                        console.log("Keluar menuBelanja, Masuk ke homeMenu")
+                    } else {
+                        alert("Masukkan 1,2 atau 3.")
+                    }
+                } while(!condMenuBelanjaPass)
+                condMenuBelanjaPass=false
+                
+
+
+
+            } else if (condHomeMenu==2) {
+                do{
+                    var menuLogin=parseInt(prompt("Ketik 1 untuk Login dan 2 untuk Register\n1. Login\n2. Register\n3. Keluar"))
+                    console.log(menuLogin)
+                    if (menuLogin==1) {
+                        do{
+                            inputUser=prompt("Username:")
+                            inputPass=prompt("Password:")
+                            var x=usernameAR.indexOf(inputUser)
+                            if (inputUser==usernameAR[x]&&inputPass==passwordAR[x]) {
+                                alert(`Selamat datang ${inputUser}.\nJangan lupa untuk maintance stok.`)
+                                z=1 // untuk pintasan ke Menu Admin
+                                condMenuLoginPass=true
+                            } else if (inputUser==usernameAR[x]&&!(inputPass==passwordAR[x])){
+                                alert("Password Salah. Jika lupa, silakan register lagi.")
+                                condMenuLoginPass=true
+                                z=2
+                            } else {
+                                alert(`${inputUser} tidak terdaftar. Silakan register dulu.`)
+                                condMenuLoginPass=true
+                                z=2
+                            }
+
+                        } while (!condMenuLoginPass)
+                        if (z==1) {
+                            condMenuLoginPass=true // Shortcut ke Menu Admin
+                        } else if (z=2){
+                            condMenuLoginPass=false
+                        }
+                    } else if (menuLogin==2) {
+                        var addUsername=prompt("Register\nUsername yang diinginkan:")
+                        var addPassword=prompt("Masukkan password:")
+                        usernameAR.push(addUsername)
+                        passwordAR.push(addPassword)
+                        console.log(usernameAR)
+                        console.log(passwordAR)
+                        condMenuLoginPass=false
+                    } else if (menuLogin==3) {
+                        console.log("keluar")
+                        condMenuLoginPass=true
+                        condMenuAdminPass=true
+                        condHomeMenu=false
+                    } else {
+                        alert("Hanya masukkan angka antara 1-3")
+                    }
+
+                } while (!condMenuLoginPass)
+                condMenuAdminPass=false
+                
+                do{
+                    if (menuLogin==3) {
+                        condMenuAdminPass=true
+                    } else {
+                        menuAdmin=parseInt(prompt(`Pagi ${addUsername}\nMenu Admin:\n1.Liat Stok Buah\n2.Tambah Buah\n3. Ubah dan harga\n4.Hapus Buah\n5.Logout`))
+                        if (menuAdmin==1) {
+                            var outputBuah=""
+                            for (x=0;x<=namaBuah.length-1;x++){
+                                outputBuah=outputBuah+(x+1)+". "+namaBuah[x]+", Harga: Rp "+hargaBuah[x].toLocaleString(undefined, {maximumFractionDigits:3})+"/kg. (Stok : "+stokBuah[x]+")\n"
+                            }
+                            alert("Stok buah terkini:\n"+outputBuah)
+                        } else if (menuAdmin==2) {
+
+                            outhapus=""
+                            for (i=1;i<=namaBuah.length;i++) {
+                            out="\n"+i+". "+namaBuah[i-1]
+                            outhapus=outhapus+out
+                            }
+                            do {
+                                tambahBuah=prompt("Mau tambah buah apa?\n0. Batal")
+                                                                            // Kalau Bisa Nanti tambahkan proteksi anti NAMA SAMA tapi beda CAPITAL
+                                if(tambahBuah==0) {
+                                    condTambahBuah=true
+                                } else if(tambahBuah==namaBuah[namaBuah.indexOf(tambahBuah)]) {
+                                    console.log(namaBuah[namaBuah.indexOf(tambahBuah)])
+                                    console.log(tambahBuah)
+                                    alert("Buah sudah ada")
+                                
+                                } else {
+                                    stokBuahbaru=parseInt(prompt("Stok buah "+tambahBuah+":"))
+                                    hargaBuahBaru=parseInt(prompt("Harga buah "+tambahBuah+" per kg:"))
+                                    if (tambahBuah.length>=2&&stokBuahbaru>=5&&hargaBuahBaru>=5000) {
+                                        namaBuah.push(tambahBuah);stokBuah.push(stokBuahbaru);hargaBuah.push(hargaBuahBaru);
+                                        alert(`Buah ${tambahBuah} dengan stok ${stokBuahbaru} di harga Rp ${hargaBuahBaru.toLocaleString(undefined, {maximumFractionDigits:3})}/kg\nBerhasil ditambahkan`)
+                                        condTambahBuah=true
+
+                                    
+
+                                    } else if(tambahBuah==0) {
+                                        condTambahBuah=true
+                                    } else {
+                                        alert("Masukkan Nama Buah, minimal 2 huruf. Harga Minimal 5000 tanpa titik dan Stok minimal 5")
+                                    }
+
+                                }
+                                
+                                
+                            } while (!condTambahBuah);
+                            condTambahBuah=false
+                            
+                        } else if (menuAdmin==3) {
+                            
+                            do {
+                                var outputBuah=""
+                                for (x=0;x<=namaBuah.length-1;x++){
+                                    outputBuah=outputBuah+(x+1)+". "+namaBuah[x]+", Harga: Rp "+hargaBuah[x].toLocaleString(undefined, {maximumFractionDigits:3})+"/kg. (Stok : "+stokBuah[x]+")\n"
+                                }
+                                editBuah=parseInt(prompt("Input angka dikiri buah yang mau di edit:\n"+outputBuah+"\n0. Batal"))-1
+                                console.log(editBuah)
+                                console.log(namaBuah.length)    
+                                if (editBuah>=0&&editBuah<=namaBuah.length-1) {
+                                    editStokBuah=parseInt(prompt(namaBuah[editBuah]+": Stok Lama "+stokBuah[editBuah]+" kg. Stok terbaru:"))
+                                    editHargaBuah=parseInt(prompt(namaBuah[editBuah]+": Harga Lama Rp "+hargaBuah[editBuah].toLocaleString(undefined, {maximumFractionDigits:3})+" Harga terbaru:"))
+                                    console.log(editStokBuah)
+                                    console.log(editHargaBuah)
+                                    if (editStokBuah>=5&&editHargaBuah>=5000) {
+                                        stokBuah[editBuah]=editStokBuah
+                                        hargaBuah[editBuah]=editHargaBuah
+                                        alert(`Buah ${namaBuah[editBuah]} telah diupdate stok menjadi ${stokBuah[editBuah]} kg dan harga Rp ${hargaBuah[editBuah].toLocaleString(undefined, {maximumFractionDigits:3})}/kg.`)
+                                    } else {
+                                        alert("Masukkan Nama Buah, minimal 2 huruf. Harga Minimal 5000 tanpa titik dan Stok minimal 5")
+                                    }
+                                } else if(editBuah==-1) {
+                                    condEditBuah=true
+                                } else {
+                                    alert("Hanya masukkan angka di samping buah yang ada. Atau kosongkan dan tekan enter untuk batalkan")
+                                }
+                            } while (!condEditBuah);
+                            condEditBuah=false
+                        } else if (menuAdmin==4) {
+                            outhapus=""
+                            for (i=1;i<=namaBuah.length;i++) {
+                                out="\n"+i+". "+namaBuah[i-1]
+                                outhapus=outhapus+out
+                            }
+                            do {
+                                hapusBuah=parseInt(prompt("Input nomer buah yang akan dihapus.\nList buah:"+outhapus+"\n0. Batal"))-1
+                                if (hapusBuah>=0&&hapusBuah<=namaBuah.length-1) {
+                                    var namaBuahAngka=[] //Bikin array baru
+                                    for (x=0;x<=namaBuah.length;x++){
+                                        namaBuahAngka.push(x)
+                                    }
+                                    console.log(namaBuah+ " array buah")
+                                    console.log(namaBuahAngka+ " buat array buah dalam angka")
+
+                                    namaBuahAngka[hapusBuah]
+                                    namaBuah[namaBuahAngka[hapusBuah]]
+                                    console.log(namaBuah[namaBuahAngka[hapusBuah]]+" harusnya yang dihapus")
+                                    hapusArraybuah=namaBuah[namaBuahAngka[hapusBuah]]
+                                    console.log(hapusArraybuah)
+
+                                    var hapusArraybuah=namaBuah.indexOf(hapusArraybuah)
+                                    console.log(hapusArraybuah+" tes")
+                                    namaBuah.splice(hapusArraybuah,1)
+                                    console.log(namaBuah)
+                                    outhapus=""
+                                    for (i=1;i<=namaBuah.length;i++) {
+                                        out="\n"+i+". "+namaBuah[i-1]
+                                        outhapus=outhapus+out
+                                    }
+                                    alert("List buah yang dijual saat ini adalah sebagai berikut:"+outhapus)
+                                    condHapusBuah=true
+                                } else if(hapusBuah==-1) {
+                                    condHapusBuah=true
+                                } else {
+                                    alert("Hanya masukkan angka di samping buah yang ada. Atau kosongkan dan tekan enter untuk batalkan")
+                                }
+                            } while (!condHapusBuah);
+                            condHapusBuah=false
+                        }
+                        else if (menuAdmin==5) {
+                            alert(`${addUsername} telah logout.`)
+                            condMenuAdminPass=true
+                        } else {
+                            alert("Masukkan angka pada menu yang tertera.")
+                            condMenuAdminPass=false
+                        }
+                    }
+                } while (!condMenuAdminPass)
+                condMenuAdminPass=false
+            } else if (condHomeMenu==3) {
+                condHomeMenuPass=true
+                yakinKeluar=confirm("Yakin mau keluar menutup halaman ini?")
+                yakinKeluar2=confirm("Seriusan yakin dah ngeceknya?")
+                if (yakinKeluar&&yakinKeluar2){
+                    condHomeMenuPass=true
+                } else {
+                    condHomeMenuPass=false
+                }
+            } else {
+                condHomeMenuPass=false
+                alert("Masukkan 1,2 atau 3.")
+            }
+        }while (!condHomeMenuPass)                                                                                                                       // Keluar Loop 1
+        alert("Terima kasih atas kunjungannya.\nKami tunggu kedatangan berikutnya.")
+        console.log("Keluar Loop 1")
+    </script>
+
+</html>

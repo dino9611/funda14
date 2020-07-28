@@ -89,5 +89,4 @@ for(let i=0;i<3;i++){
     output+='\n'
 }
 
-
 console.log(output)
