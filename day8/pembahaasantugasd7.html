@@ -1,0 +1,155 @@
+<script>
+    alert('selamat datang di toko buah kami ')
+    var menuUtama
+    var kondisimenuutama=true
+    class Barang{
+        constructor(_nama,_harga){
+            this.nama=_nama,
+            this.harga=_harga
+        }
+    }
+    
+    class Buah extends Barang{
+        constructor(_nama,_harga,_stok){
+            super(_nama,_harga)
+            this.stok=_stok
+        }
+    }
+
+    class Cart extends Barang{
+        constructor(_nama,_harga,_qty){
+            super(_nama,_harga)
+            this.qty=_qty
+        }
+    }
+    var namabuah=['apple','grape','orange']
+    var cart=[]
+    var buah=[
+        new Buah('apple',10000,5),
+        new Buah('grape',15000,7),
+        new Buah('orange',20000,8)
+    ]
+
+    const tampilkanbuah=(cartautidak,arr)=>{
+        var output=''
+        for(let i=0;i<arr.length;i++){
+            if(cartautidak){
+                output+=`${i+1}.${arr[i].nama}:Rp.${arr[i].harga} qty=${arr[i].qty}== ${arr[i].qty*arr[i].harga}\n`
+            }else{
+                output+=`${i+1}.${arr[i].nama}:Rp.${arr[i].harga} stok=${arr[i].stok}\n`
+            }
+        }
+        return output
+    }
+    const totalharga=()=>{
+        var totalharga=0
+        for(let i=0;i<cart.length;i++){
+            totalharga+=(cart[i].harga*cart[i].qty)
+        }
+        return totalharga
+    }
+
+    while(kondisimenuutama){
+        do {
+            menuUtama=prompt('menu utama?\n1.belanja\n2.Tambah buah\n3.edit buah\n4.tampilkan buah\n5.exit')
+            if(!(menuUtama>=1&&menuUtama<6)){
+               alert('ulangin woy')
+            }
+        } while (!(menuUtama>=1&&menuUtama<6));
+        if(menuUtama==1){
+            do {
+                var menubelanja=prompt('1.pilih buah\n2.bayar\n3.tampilkan Cart')
+                var menubelanjakondisi=true
+                if(menubelanja==1){
+                    var pilihanbelanja=prompt(`pilih aja bos:\n${tampilkanbuah(false,buah)}`)
+                    var indexcart=-1
+                    for(let j=0;j<cart.length;j++){
+                        if(cart[j].nama==buah[pilihanbelanja-1].nama){
+                            indexcart=j
+                        }
+                    }
+                    var qty=parseInt(prompt('pengen berapa bos?'))
+                    if(qty>buah[pilihanbelanja-1].stok){
+                        alert('stokknya nggak cukup bos')
+                    }else{
+                        if(indexcart<0){
+                            cart.push(new Cart(buah[pilihanbelanja-1].nama,buah[pilihanbelanja-1].harga,qty))
+                            // cartbuah.push(namabuah[pilihanbelanja-1])
+                            // cartharga.push(price[pilihanbelanja-1])
+                            // cartqty.push(qty)
+                        }else{
+                           cart[indexcart].qty+=qty 
+                        }
+                        buah[pilihanbelanja-1].stok-=qty
+                    }
+                }else if(menubelanja==2){
+                    // var totalharga=0
+                    // var output=''
+                    // for(let i=0;i<cartbuah.length;i++){
+                    //     output+=`${i+1}.${cartbuah[i]}:Rp.${cartharga[i]} qty=${cartqty[i]}== ${cartqty[i]*cartharga[i]}\n`
+                    //     totalharga+=(cartharga[i]*cartqty[i])
+                    // }
+                    var bayar=parseInt(prompt(`totalbelanja :\n${tampilkanbuah(true,cart)}\nTotal harga=${totalharga()}`))
+                    if(bayar<totalharga()){
+                        alert('miskin anda')
+                    }else if(bayar==totalharga()){
+                        alert('terima kasi')
+                    }else{
+                        alert('kembalian anda Rp.'+(bayar-totalharga())+'.00')
+                    }
+                    menubelanjakondisi=confirm('belanja lagi nggak?')
+                    cart=[]
+                }else{
+                    if(cart.length){
+                        var output=''
+                        for(let i=0;i<cart.length;i++){
+                            output+=`${i+1}.${cart[i].nama}:Rp.${cart[i].harga} qty=${cart[i].qty}\n`
+                        }
+                        alert(`tampilan cart :\n${output}`)
+                    }else{
+                        alert('belanja dulu karena car kosong')
+                        menubelanjakondisi=confirm('jadi belanja nggak ?')
+                    }
+                }
+            } while (menubelanjakondisi);
+            
+        }else if(menuUtama==2){
+            var namabuahbaru=prompt('masukkan nama buah?')
+            var hargabuahbaru=prompt('masukkan harganya')
+            var stokbaru=prompt('masukkan stoknya')
+            alert(`mau memasukkan buah ${namabuahbaru} dengan harga Rp.${hargabuahbaru}.00 dengan stok ${stokbaru}`)
+            var yakinnggak=confirm('yakin nggak')
+            if(yakinnggak){
+                buah.push(new Buah(namabuahbaru,hargabuahbaru,stokbaru))
+                // namabuah.push(namabuahbaru)
+                // price.push(hargabuahbaru)
+                // stok.push(stokbaru)
+                alert('berhasil')
+            }else{
+                alert('oke deh nggak jadi')
+            }
+        }else if(menuUtama==3){
+            // var output=''
+            // for(let i=0;i<namabuah.length;i++){
+            //     output+=`${i+1}.${namabuah[i]}:Rp.${price[i]} stok=${stok[i]}\n`
+            // }
+            var pilihedit
+            do {
+                pilihedit=prompt(`mau edit yang mana:\n${tampilkanbuah(false,buah)}`)
+            } while (!(pilihedit>=1 &&pilihedit<=buah.length));
+            var namabuahedit=prompt('ganti buah '+buah[pilihedit-1].nama+' jadi?')
+            var priceedit=prompt('ganti harganya jadi ?')
+            var stokedit=prompt('ganti stok jadim?')
+            buah.splice(pilihedit-1,1,new Buah(namabuahedit,priceedit,stokedit))
+            // namabuah.splice(pilihedit-1,1,namabuahedit)
+            // stok.splice(pilihedit-1,1,stokedit)
+            // price.splice(pilihedit-1,1,priceedit)
+            alert('berhasil mengedit')
+        }else if(menuUtama==4){
+            alert(`tampilan:\n${tampilkanbuah(false,buah)}`)
+        }else{
+            alert('selamat tinggal')
+            kondisimenuutama=false
+        }
+    }
+</script>
