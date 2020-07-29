@@ -1,0 +1,29 @@
+<script>
+var database=[
+    {name:'dino',password:'gggg',role:'admin'},
+    {name:'lino',password:'gggg',role:'user'},  
+]
+
+var menu=true
+while(menu){
+    var awal=prompt('1.login\n2.Register')
+    if(awal==1){
+        var inputloginname=prompt('masukkan nama')
+        var inputloginpass=prompt('masukkan password')
+        var user=database.filter((val)=>val.name==inputloginname&&val.password==inputloginpass)
+        console.log(user)
+        if(user.length){
+            alert('selama datang '+user[0].name)
+            menu=false
+        }else{
+            alert('salah input pass/name')
+        }
+    }else{
+        var inputname=prompt('masukkan nama')
+        var inputpassword=prompt('masukkan masukkan pasword')
+        database.push({name:inputname,password:inputpassword,role:'user'})
+    }
+
+}
+
+</script>
