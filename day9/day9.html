@@ -23,7 +23,7 @@
         <p>     Ini Paragraf</p><br><br>
         ddddd
  
-    <img src="https://images.unsplash.com/photo-1596014747759-c8fcf9698e17?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60" alt="Purwadhika" width="600" height="280">
+    <img src="https://images.unsplash.com/photo-1596014747759-c8fcf9698e17?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60" alt="Purwadhika" width="600" height="280"> -->
 
     <table>
         <thead>
@@ -54,29 +54,61 @@
                 <td>namaaaa</td>
             </tr>
         </tbody>
-    </table> -->
-
-        Nama <input type="text" name="nama" id='namaaja'>
-        <br>
-        
-        Usia <input type="number" name="usia">
-        <br>
-        
-        <input type="radio" name= "sex" value="Pria"> Pria
-        <input type="radio" name= "sex" value="Wanita" checked> Wanita
-
-        <br>
-        
-        <input type="button" onclick="kliktombol()" value="OK">
+    </table>
+    
+        <form onsubmit="kliktombol(event)" >
+            Nama <input type="text" name="nama" id='namaaja'>
+            <br>
+            
+            Usia <input type="number" name="usia">
+            <br>
+            
+            <input type="radio" name= "sex" value="Pria"> Pria
+            <input type="radio" name= "sex" value="Wanita" checked> Wanita
+    
+            <br>
+            
+            <input type="submit" value="OK"/>
+        </form>
 
         <p id='output'></p>
+
+        <!-- <select id="jenis">
+            <option value="mobil">caaaa</option>
+            <option value="mooto">motor</option>
+            <option value="becak">becak</option>
+            <option value="mobilio">mobilio</option>
+        </select> -->
 </body>
 <script>
     console.log('ada')
-    const kliktombol=()=>{
+
+    // document.getElementById('init').addEventListener('submit',(even)=>{
+    //     even.preventDefault()
+    //     var nama=document.getElementById('namaaja').value
+    //     var usia=document.getElementsByTagName('input')[1].value
+    //     // e.preventDefault()
+    //     // var jenis=document.getElementById('jenis').value
+    //     // console.log(jenis)
+    //     var kelamin
+    //     if(document.getElementsByName('sex')[0].checked){
+    //         kelamin=document.getElementsByName('sex')[0].value
+    //     }else{
+    //         kelamin=document.getElementsByName('sex')[1].value
+    //     }
+    //     document.getElementById('output').innerHTML=`nama ${nama}, usia ${usia}, jenis kelmain ${kelamin}`
+
+    // })
+
+    let kliktombol=(even)=>{
+        console.log(even)
+        even.preventDefault()
+        console.log('submitted')
         var nama=document.getElementById('namaaja').value
         var usia=document.getElementsByTagName('input')[1].value
         // e.preventDefault()
+        // var jenis=document.getElementById('jenis').value
+        // console.log(jenis)
         var kelamin
         if(document.getElementsByName('sex')[0].checked){
             kelamin=document.getElementsByName('sex')[0].value
@@ -84,7 +116,6 @@
             kelamin=document.getElementsByName('sex')[1].value
         }
         document.getElementById('output').innerHTML=`nama ${nama}, usia ${usia}, jenis kelmain ${kelamin}`
-     
     }
 </script>
 </html>
