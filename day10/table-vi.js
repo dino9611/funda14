@@ -1,7 +1,5 @@
 let arrProduct=[],arrAnimal=[]
 
-
-
 const submitProduct=(e)=>{
     e.preventDefault()
     var nama=document.getElementById('name').value
@@ -10,7 +8,6 @@ const submitProduct=(e)=>{
     // var kondisi=kondisiaw[0].checked?kondisiaw[0].value:kondisiaw[1].value
     var kondisi=document.querySelector('input[name=condition]:checked').value
     var kategori=document.getElementById('category').value
-
     // console.log(nama,price,kondisi,kategori)
     var obj={nama,price,kondisi,kategori}
     // console.log(obj)
@@ -25,8 +22,6 @@ const submitAnimal=(e)=>{
     var price=document.getElementById('priceH').value
     var sex=document.querySelector('input[name=sex]:checked').value
     var stat=document.querySelector('input[name=stat]:checked').value
-
-
     // console.log(nama,price,kondisi,kategori)
     var obj={nama,price,sex,stat}
     // console.log(obj)
@@ -36,6 +31,7 @@ const submitAnimal=(e)=>{
 }
 
 const tampilkanProduct=()=>{
+    console.log(arrProduct)
     var output=arrProduct.map((val,index)=>{
         return (
             `<tr>
@@ -46,6 +42,7 @@ const tampilkanProduct=()=>{
             </tr>`
         )
     })
+    console.log(output)
     document.getElementById('product').innerHTML=output.join('')
 }
 
