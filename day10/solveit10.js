@@ -38,9 +38,9 @@ const cekaja=()=>{
     var inputjawaban
     soal.forEach((val,index)=>{
         inputjawaban=document.getElementsByName('soal'+index)
-            if(inputjawaban[val.jawaban].checked){
-                skor+=25
-            }
+        if(inputjawaban[val.jawaban].checked){
+            skor+=25
+        }
     })
     document.getElementById('output').innerHTML=skor
 }

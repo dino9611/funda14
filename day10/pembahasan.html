@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>VERSION V1.0</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script defer src="./table-vi.js"></script>
+    <style>
+        body {
+            padding: 0;
+            margin: 0;
+        }
+        /* DIV */
+        div.formWrapper {
+            margin: 13px;
+        }
+
+        /* Table */
+
+        table,th,td {
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+
+        table{
+            margin: 0 auto;
+            text-align: center;   
+        }
+
+        table.one {
+            margin-bottom: 20px;
+            margin-top: 20px;
+        }
+
+        table.inside {
+            margin: 20px;
+        }
+
+        thead th {
+            padding: 20px;
+        }
+    </style>
+</head>
+
+<!-- Do together : How to input and rendering in table (left table)-->
+<!-- Exercise : Right Table -->
+
+<body>
+
+    <table class="one">
+        <thead>
+                <th>Form Product</th>
+                <th>Form Hewan</th>
+        </thead>
+        <tr>
+            <td>
+                <div class="formWrapper">
+                    <form onsubmit="submitProduct(event)">
+                        <p>Nama: <input type="text" id="name"></p>
+                        <p>Harga: <input type="number" id="price"></p>
+                        <p>Kondisi: <input type="radio" name="condition" value="Baru">Baru <input type="radio" name="condition" value="Second">Second</p>
+                        <p>Kategori: <select id="category">
+                                <option value="Elektronik">Elektronik</option>
+                                <option value="Pakaian">Pakaian</option>
+                                <option value="Otomotif">Otomotif</option>
+                            </select>
+                        </p>
+                        <input type="submit" value="Tambahkan" >
+                    </form>
+                </div>
+            </td>
+            <td>
+                <div class="formWrapper">
+                    <form action="" onsubmit="submitAnimal(event)">
+                        <p>Nama: <input type="text"  id="nameH"></p>
+                        <p>Harga: <input type="number"  id="priceH"></p>
+                        <p></p>Kelamin: <input type="radio" name="sex" value="Jantan" checked>Jantan<input type="radio" name="sex" value="Betina">Betina</p>
+                        <p>Status: <input type="radio" name="stat" value="Liar">Liar <input type="radio" name="stat" value="Peliharaan">Peliharaan</p>
+
+                        <input type="submit" value="Tambahkan">
+                    </form>
+                </div>
+            </td>
+        </tr>
+    </table>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Data Barang</th>  
+                <th>Data Hewan</th>
+            </tr>
+        </thead>
+        <tr>
+            <td>
+                <table class="inside">
+                    <thead>
+                        <tr>
+                            <th>Nama</th>
+                            <th>Harga</th>
+                            <th>Kondisi</th>
+                            <th>Kategori</th>
+                        </tr>
+                    </thead>
+                    <tbody id = "product">
+
+                    </tbody>
+                </table>
+            </td>
+            <td>
+                <table class="inside">
+                    <thead>
+                        <tr>
+                            <th>Nama</th>
+                            <th>Umur</th>
+                            <th>Kelamin</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id = "animal">
+
+                    </tbody>
+
+                </table>
+            </td>
+        </tr>
+    </table>
+
+</body>
+
+</html>
