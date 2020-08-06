@@ -3,15 +3,15 @@
 // var angkaganjil=angka.filter(val=>val%2==0)
 
 
-// const bebas=(newarr,cb)=>{
-//     var output=[]
-//     for(let i=0;i<newarr.length;i++){
-//         if(cb(newarr[i])){
-//             output+=newarr[i]
-//         }
-//     }
-//     return output
-// }
+const bebas=(newarr,cb)=>{
+    var output=[]
+    for(let i=0;i<newarr.length;i++){
+        if(cb(newarr[i])){
+            output+=newarr[i]
+        }
+    }
+    return output
+}
 
 
 // angka.forEach((val)=>{
