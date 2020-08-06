@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ecommerce sederhana</title>
+ 
+    <style>
+        tr,td,table{
+            border: 1px solid gray;
+            border-collapse: collapse;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+    <center>
+        <h1>E Commerce sederhana</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>No.</th>
+                    <th>Nama</th>
+                    <th>Harga</th>
+                    <th>Gambar</th>
+                    <th>action</th>
+                </tr>
+            </thead>
+            <tbody id='tableatas'>
+               
+            </tbody>
+        </table>
+        <h1 id="Cart"></h1>
+        <table id='comcart'>
+            
+        </table>
+        <br>
+        <div id="checkout">
+
+        </div>
+        <div id='timer'></div>
+        <div id='input'></div>
+    </center>
+</body>
+<script>
+    class Product{
+        constructor(a,b,c){
+            this.nama=a
+            this.harga=b
+            this.gambar=c
+        }
+    }
+
+    var timer
+    var product=[
+        new Product('kuaci',20000,'https://s.blanja.com/picspace/11/102411/800.800_1d294bdb3a3e4c20aec0a455099cf815.jpg'),
+        new Product('Susu Ultra',10000,'https://cdn.kmall.id/media/catalog/product/cache/c687aa7517cf01e65c009f6943c2b1e9/u/l/ultra_milk_low_fat_plain_1000_ml.jpg'),
+        new Product('chicato',15000,'https://cf.shopee.co.id/file/6bb5490e8663c4885a99388f8fff21f9')
+    ]
+    var cart=[]
+    var time=10
+    const Tampilkangambar=()=>{
+        
+        document.getElementById('tableatas').innerHTML= product.map((val,index)=>{
+            return(
+            `    <tr>
+                    <td>${index+1}</td>
+                    <td>${val.nama}</td>
+                    <td>${val.harga}</td>
+                    <td><img src=${val.gambar} alt=${val.nama} height='150'></td>
+                    <td><button onclick='addtoCart(${index})' >Add to cart</button></td>
+                </tr>`
+            )
+        }).join('')
+    }
+    const checkedCart=()=>{
+        if(cart.length){
+            var output=''
+            cart.forEach((val,index)=>{
+            output+= `    <tr>
+                            <td>${index+1}</td>
+                            <td>${val.nama}</td>
+                            <td>${val.harga}</td>
+                            <td><img src=${val.gambar} alt=${val.nama} height='150'></td>
+                            <td><button onclick='deleteCart(${index})' >delete</button></td>
+                        </tr>`
+            })
+            var outputakhir=`
+                    <thead>
+                        <tr>
+                            <th>No.</th>
+                            <th>Nama</th>
+                            <th>Harga</th>
+                            <th>Gambar</th>
+                            <th>Delete</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${output}
+                    </tbody>
+            `
+            document.getElementById('comcart').innerHTML=outputakhir
+            document.getElementById('checkout').innerHTML=`<button onclick='checkOut()'> Checkout</button>`
+            document.getElementById('Cart').innerHTML=` total belanja anda ada ${cart.length} total Rp.${totalharga()}`
+        }else{
+            document.getElementById('Cart').innerHTML='Cart kosong'
+            document.getElementById('comcart').innerHTML=''
+            document.getElementById('checkout').innerHTML=``
+            time=10
+            document.getElementById('timer').innerHTML=``
+            document.getElementById('input').innerHTML=``
+            cart=[]
+            clearInterval(timer)
+        }
+    }
+
+    var totalharga=()=>{
+        var output=0
+        cart.forEach((val)=>{
+            output+=val.harga
+        })
+        return output
+    }
+    const addtoCart=(index)=>{
+        cart.push(product[index])
+        checkedCart()
+    }
+    let deleteCart=(index)=>{
+        cart.splice(index,1)
+        checkedCart()
+    }
+    let clear=()=>{
+        time=10
+        document.getElementById('Cart').innerHTML='Cart kosong'
+        document.getElementById('comcart').innerHTML=''
+        document.getElementById('checkout').innerHTML=``
+        document.getElementById('timer').innerHTML=``
+        document.getElementById('input').innerHTML=``
+        cart=[]
+        clearInterval(timer)
+    }
+    
+    let checkOut=()=>{
+        var reminder=confirm('yakin nggak ?')
+        if(reminder){
+            document.getElementById('timer').innerHTML=`waktu tersisa ${time}`
+            document.getElementById('input').innerHTML=`<input type='number' id='bayar'/>
+                                                        <button onclick='bayar()'>Pay</button>`
+            timer=setInterval(()=>{
+                if(time<2){
+                   clear()
+                }else{
+                    time--
+                    document.getElementById('timer').innerHTML=`waktu tersisa ${time}`
+                }
+            },1000)
+        }else{
+            alert('ok')
+        }
+    }
+
+    const bayar=()=>{
+        var input=document.getElementById('bayar').value
+        if(input<totalharga()){
+            alert('kurang woy '+(totalharga()-input))
+            var jadinggak=confirm('jadi nggak ')
+            if(!jadinggak){
+                clear()
+            }
+        }else if(input==totalharga()){
+            alert('terima kasih')
+            clear()    
+        }else{
+            alert('terima kasih kembaliannya '+(input-totalharga()))
+            clear()
+        }
+    }
+
+    Tampilkangambar()
+    checkedCart()
+</script>
+</html>
