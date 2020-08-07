@@ -9,6 +9,8 @@ var arrProduct = [
 // init value
 var arrCategory = ["All", "Fast Food", "Electronic", "Cloth", "Fruit"];
 
+var indexdelete=-1
+
 let tampilkanawal=(arr)=>{
     var outputprod=arr.map((val,index)=>{
         return (
@@ -18,6 +20,8 @@ let tampilkanawal=(arr)=>{
                 <td>${val.name}</td>
                 <td>${val.price}</td>
                 <td>${val.stock}</td>
+                <td><input type='button' value='delete' onclick='fundelete(${index})'/></td>
+                <td><input type='button' value='edit' onclick='funedit(${index})'/></td>
             </tr>`
         )
     }).join('')
@@ -30,6 +34,17 @@ let tampilkanawal=(arr)=>{
     document.getElementById('categoryInput').innerHTML=outputcategory
     document.getElementById('render').innerHTML=outputprod
 }
+
+const fundelete=(index)=>{
+    // console.log(index)
+    indexdelete=index
+    document.getElementById('render').innerHTML=Showfilter(arrProduct).join('')
+}
+const funedit=(index)=>{
+    indexedit=index
+    document.getElementById('render').innerHTML=Showfilter(arrProduct).join('')
+}
+
 let funInputData=()=>{
     var _name = document.getElementById("nameInput").value;
     var _price = document.getElementById("priceInput").value;
@@ -110,8 +125,74 @@ let funFilterCategory=()=>{
     document.getElementById('render').innerHTML=Showfilter(newarr).join('')
 
 }
+var indexedit=-1
+
+const funccanceldelete=()=>{
+    indexdelete=-1
+    document.getElementById('render').innerHTML=Showfilter(arrProduct).join('')
+}
+const funccanceledit=()=>{
+    indexedit=-1
+    document.getElementById('render').innerHTML=Showfilter(arrProduct).join('')
+
+}
+const funsaveedit=()=>{
+    var nameinputedit=document.getElementById('editnama'+indexedit).value //''
+    var priceedit=document.getElementById('editprice'+indexedit).value // ''
+
+    var stokedit=document.getElementById('editstock'+indexedit).value // ''
+    var categoryedit=document.getElementById('editcategory'+indexedit).value
+    console.log(nameinputedit,priceedit,stokedit,categoryedit)
+    arrProduct.splice(indexedit,1,{
+        ...arrProduct[indexedit],
+        category:categoryedit,
+        name:nameinputedit,
+        stock:stokedit,
+        price:priceedit
+    })
+    indexedit=-1
+    document.getElementById('render').innerHTML=Showfilter(arrProduct).join('')
+}
+const savedelete=()=>{
+    arrProduct.splice(indexdelete,1)
+    indexdelete=-1
+    document.getElementById('render').innerHTML=Showfilter(arrProduct).join('')
+}
 function Showfilter(filterarr){
     return filterarr.map((val,index)=>{
+        if(index==indexdelete){
+            return(
+                `<tr>
+                    <td>${val.id}</td>
+                    <td>${val.category}</td>
+                    <td>${val.name}</td>
+                    <td>${val.price}</td>
+                    <td>${val.stock}</td>
+                    <td><input type='button' onclick='savedelete()' value='yes'/></td>
+                    <td><button onclick='funccanceldelete()'>cancel</button></td>
+                </tr>`
+            )
+        }else if(index==indexedit){
+            var outputcategory=arrCategory.map((val1)=>{
+                if(val1===val.category){
+                    return `<option value='${val1}' selected>${val1}</option>`
+                }
+                return (
+                    `<option value='${val1}'>${val1}</option>`
+                )
+            }).join('')
+            return(
+                `<tr>
+                    <td>${val.id}</td>
+                    <td><select id='editcategory${index}'>${outputcategory}</select></td>
+                    <td> <input type="text" value='${val.name}' id="editnama${index}"></td>
+                    <td> <input type="number" value='${val.price}' id="editprice${index}"></td>
+                    <td> <input type="number" value='${val.stock}' id="editstock${index}"></td>
+                    <td><input type='button' onclick='funsaveedit()' value='save'/></td>
+                    <td><button onclick='funccanceledit()'>cancel</button></td>
+                </tr>`
+            )
+        }
         return(
             `<tr>
                 <td>${val.id}</td>
@@ -119,6 +200,8 @@ function Showfilter(filterarr){
                 <td>${val.name}</td>
                 <td>${val.price}</td>
                 <td>${val.stock}</td>
+                <td><input type='button' value='delete' onclick='fundelete(${index})'/></td>
+                <td><input type='button' value='edit' onclick='funedit(${index})'/></td>
             </tr>`
         )
      })
