@@ -25,3 +25,14 @@ console.log(lelang(2))
 var harihari=['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu']
 
 console.log(harihari.findIndex((val)=>val==='Senin'))
+
+function findindexalala(arr,cb){
+    for(var i=0;i<arr.length;i++){
+        if(cb(arr[i],i)){
+            return i
+        }
+    }
+}
+
+console.log(findindexalala(harihari,(val)=>val==='Senin'),'alala')
+
