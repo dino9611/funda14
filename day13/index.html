@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        table,
+        th,
+        td {
+            border: 1px solid black;
+            border-collapse: collapse;
+            padding: 10px;
+        }
+
+    </style>
+</head>
+<body>
+    <center>
+        <h1>Madding</h1>
+        Username: <input type="text" id="username" placeholder="masukkan username"> <br> <br>
+        Password: <input type="password" id="password" placeholder="masukkan password"> <br> <br>
+        <input type="button" id='login'  value="login"> <br> <br>
+        <table>
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Kegiatan</th>
+                    <th>Hari</th>
+                    <th>Poster</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+        <h3></h3>
+        <p></p>
+    </center>
+</body>
+<script>
+    class User{
+        constructor(a,b,c){
+            this.username=a
+            this.password=b
+            this.role=c
+        }
+    }
+    class Madding{
+        constructor(a,b,c){
+            this.kegiatan=a
+            this.hari=b
+            this.poster=c
+        }
+    }
+
+    let dataUsers=[
+        new User('dino','1234','user'),
+        new User('admin','1234','admin'),
+    ]
+
+    let datakegiatan=[
+        new Madding('lari','Senin','https://cdn1-production-images-kly.akamaized.net/P2eLZryRAlGTFR_C3Iy_KH3KMWQ=/640x360/smart/filters:quality(75):strip_icc():format(jpeg)/kly-media-production/medias/1587054/original/074117300_1494145266-20170506-Maraton-Tak-Sampai-2-Jam-di-Italia-AP-3.jpg'),
+        new Madding('Maling','Selasa','https://cdn1-production-images-kly.akamaized.net/P2eLZryRAlGTFR_C3Iy_KH3KMWQ=/640x360/smart/filters:quality(75):strip_icc():format(jpeg)/kly-media-production/medias/1587054/original/074117300_1494145266-20170506-Maraton-Tak-Sampai-2-Jam-di-Italia-AP-3.jpg'),
+        new Madding('jalam','Rabu','https://cdn1-production-images-kly.akamaized.net/P2eLZryRAlGTFR_C3Iy_KH3KMWQ=/640x360/smart/filters:quality(75):strip_icc():format(jpeg)/kly-media-production/medias/1587054/original/074117300_1494145266-20170506-Maraton-Tak-Sampai-2-Jam-di-Italia-AP-3.jpg'),
+    ]
+    var datauser=[]
+    var indexedit=-1
+    var indexdelete=-1
+
+
+    function hariSelect(hari){
+        var harihari=['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu']
+        var indexhar=harihari.findIndex((val)=>val===hari)
+        return harihari.map((val,index)=>{
+            if(indexhar===index){
+                return `<option value='${val}' selected>${val}</option>`
+            }
+            return `<option value='${val}'>${val}</option>`
+        }).join('')
+    }
+
+    const TampilkanTable=(role)=>{
+        return datakegiatan.map((val,index)=>{
+            if(role==='user'){
+                return `
+                <tr>
+                    <td>${index+1}</td>
+                    <td>${val.kegiatan}</td>
+                    <td>${val.hari}</td>
+                    <td><img src=${val.poster} alt=${val.kegiatan} height='150'></td>
+                    <td></td>
+                </tr>`
+            }
+            if(index===indexedit){
+                return `
+                <tr>
+                    <td>${index+1}</td>
+                    <td><input type='text' value=${val.kegiatan} id='editkegitan${index}'/></td>
+                    <td><select id='edithari${index}'>${hariSelect(val.hari)}</select></td>
+                    <td><input type='text' value=${val.poster} id='editposter${index}'/></td>
+                    <td><input type='button'value='save' onclick='SaveEdit()'/> <input type='button'value='Cancel' onclick='canceEdit()'/> </td>
+                </tr>`
+            }else if(index===indexdelete){
+                return `
+                <tr>
+                    <td>${index+1}</td>
+                    <td>${val.kegiatan}</td>
+                    <td>${val.hari}</td>
+                    <td><img src=${val.poster} alt=${val.kegiatan} height='150'></td>
+                    <td><input type='button'value='Yes'/> <input type='button'value='Cancel' onclick='cancelDelete()'/> </td>
+                </tr>`
+            }else{
+                return `
+                <tr>
+                    <td>${index+1}</td>
+                    <td>${val.kegiatan}</td>
+                    <td>${val.hari}</td>
+                    <td><img src=${val.poster} alt=${val.kegiatan} height='150'></td>
+                    <td><input type='button'value='delete' onclick='fundel(${index})'/> <input type='button'value='edit' onclick='funEdit(${index})'/> </td>
+                </tr>`
+            }
+        })
+    }
+
+    let SaveEdit=()=>{
+        var editkegiatan=document.getElementById('editkegitan'+indexedit).value
+        var edithari=document.getElementById('edithari'+indexedit).value
+        var editposter=document.getElementById('editposter'+indexedit).value
+        datakegiatan.splice(indexedit,1,new Madding(editkegiatan,edithari,editposter))
+        indexedit=-1
+        document.getElementsByTagName('tbody')[0].innerHTML=TampilkanTable(datauser[0].role).join('')
+
+        
+    }
+
+    let cancelDelete=()=>{
+        indexdelete=-1
+        document.getElementsByTagName('tbody')[0].innerHTML=TampilkanTable(datauser[0].role).join('')
+    }
+
+    let canceEdit=()=>{
+        indexedit=-1
+        document.getElementsByTagName('tbody')[0].innerHTML=TampilkanTable(datauser[0].role).join('')
+
+    }
+    let funEdit=(index)=>{
+        indexedit=index
+        document.getElementsByTagName('tbody')[0].innerHTML=TampilkanTable(datauser[0].role).join('')
+    }
+
+    let fundel=(index)=>{
+        indexdelete=index
+        document.getElementsByTagName('tbody')[0].innerHTML=TampilkanTable(datauser[0].role).join('')
+    }
+
+    let Logout=()=>{
+        datauser=[]
+        document.getElementsByTagName('tbody')[0].innerHTML=''
+        document.getElementsByTagName('h3')[0].innerHTML=''
+        document.getElementsByTagName('p')[0].innerHTML=``
+    }
+    document.getElementById('login').addEventListener('click',()=>{
+        if(datauser.length){
+            alert('logout dulu bro')
+        }else{
+            var username=document.getElementById('username').value
+            var password=document.getElementById('password').value
+            datauser=dataUsers.filter((val)=>val.username==username&&val.password==password)
+            if(datauser.length){
+                document.getElementsByTagName('tbody')[0].innerHTML=TampilkanTable(datauser[0].role).join('')
+                document.getElementsByTagName('h3')[0].innerHTML=datauser[0].role==='admin'?'admin': datauser[0].username
+                document.getElementsByTagName('p')[0].innerHTML=`<input type='button' value='Logout' onclick='Logout()'/>`
+            }else{
+                document.getElementsByTagName('h3')[0].innerHTML='Password atau username salah'
+            }
+            document.getElementById('username').value=''
+            document.getElementById('password').value=''
+        }
+    })
+</script>
+</html>

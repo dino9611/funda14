@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>timer</title>
+</head>
+<body>
+    <h1></h1>
+    <input type="number" placeholder="berapa menit" id='haha'>
+    <input type="button" id="start" value="Start">
+    <input type="button" id='stop' value="stop" disabled>
+    <input type="button" id="reset" onclick="" value="Reset">
+</body>
+<script>
+    var time=document.getElementsByTagName('h1')[0]
+    var input
+    var timeawal=input? parseInt(input)*60:0
+    function timer(a){
+        var jam=Math.floor(a/(60*60))
+        var sisamenit=a%(60*60)
+        var menit=Math.floor(sisamenit/60)
+        var sisadetik=sisamenit%60
+        var detik=sisadetik%60
+        return {jam,menit,detik}
+    }
+
+    const tampilkan=(a)=>{
+        var jam=timer(a).jam<10?'0'+timer(a).jam:timer(a).jam
+        var menit=timer(a).menit
+        var detik=timer(a).detik
+        if(menit<10){
+            menit='0'+menit
+        }
+        if(detik<10){
+            detik='0'+detik
+        }
+        time.innerHTML=`${jam}:${menit}:${detik}`
+    }
+    tampilkan(timeawal)
+    var setint
+    document.getElementById('start').addEventListener('click',()=>{
+        input=document.getElementById('haha').value
+        var angkatimer=input*60
+        if(angkatimer>timeawal&&timeawal!=0){
+            angkatimer=timeawal
+        }
+        setint=setInterval(()=>{
+            tampilkan(angkatimer)
+            angkatimer--
+            timeawal=angkatimer
+            if(angkatimer<0){
+                clearInterval(setint)
+                tampilkan(0)
+            }
+        },1000)
+        document.getElementById('stop').disabled=false
+        document.getElementById('start').disabled=true
+    })
+    document.getElementById('stop').addEventListener('click',()=>{
+        clearInterval(setint)
+        document.getElementById('stop').disabled=true
+        document.getElementById('start').disabled=false
+    })
+    document.getElementById('reset').addEventListener('click',()=>{
+        clearInterval(setint)
+        input=document.getElementById('haha').value
+        var angkatimer=input*60
+        timeawal=angkatimer
+        tampilkan(angkatimer)
+        document.getElementById('stop').disabled=true
+        document.getElementById('start').disabled=false
+    })
+
+</script>
+</html>
