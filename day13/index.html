@@ -68,6 +68,10 @@
     var indexedit=-1
     var indexdelete=-1
 
+    //f(x)=ax+b
+    //f(2)=4+1+y==7
+    //f(f(2))=a f(2)+b
+// f(f(2))=a7+b
 
     function hariSelect(hari){
         var harihari=['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu']
@@ -80,7 +84,7 @@
         }).join('')
     }
 
-    const TampilkanTable=(role)=>{
+    const TampilkanTable=(role)=>{//return []
         return datakegiatan.map((val,index)=>{
             if(role==='user'){
                 return `
@@ -120,7 +124,7 @@
                     <td><input type='button'value='delete' onclick='fundel(${index})'/> <input type='button'value='edit' onclick='funEdit(${index})'/> </td>
                 </tr>`
             }
-        })
+        })//menhasilkan sebuah araay []
     }
 
     let SaveEdit=()=>{
