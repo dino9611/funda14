@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>login register</title>
+</head>
+<body>
+    <center>
+        <h1>Login Register</h1>
+        username : <input type="text"  id="username"> <br> <br>
+        password : <input type="password"  id="password"><br><br>
+        <input type="button" value="Login" onclick="login()">
+        <input type="button" value="Register" onclick="Register()">
+        <h2></h2>
+        <h2></h2>
+        <p></p>
+    </center>
+</body>
+<script>
+    var datauser=[
+        {id:1,username:'admin',role:'admin',password:'12'},
+        {id:2,username:'dino',role:'user',password:'12'},
+    ]
+
+    const Register=()=>{
+        var username=document.getElementById('username').value
+        var password=document.getElementById('password').value//''
+        // var user=datauser.filter((val)=>val.username==username)
+        var users=false
+        for(let i=0;i<datauser.length;i++){
+            if(datauser[i].username==username){
+                users=true
+            }
+        }
+        if(!password||!username){
+            document.getElementsByTagName('h2')[0].innerHTML='inputan masih kosong'
+        }else{
+            if(users){
+                document.getElementsByTagName('h2')[0].innerHTML='User sudah ada woy'
+            }else{
+                datauser.push(
+                    {id:datauser.length+1,username:username,password,role:'user'}
+                )
+                document.getElementsByTagName('h2')[0].innerHTML='pendaftaran sukses silahkan login'
+            }
+        }
+    }
+
+    const login=()=>{
+        var username=document.getElementById('username').value
+        var password=document.getElementById('password').value
+        // var user=datauser.filter((val)=>val.username==username)
+        var users=undefined
+        for(let i=0;i<datauser.length;i++){
+            if(datauser[i].username==username && datauser[i].password==password){
+                users=datauser[i]
+            }
+        }
+        if(users){
+            document.getElementsByTagName('h2')[0].innerHTML=users.username+' berhasil login sebagai '+users.role
+            document.getElementsByTagName('p')[0].innerHTML=`<input type='button' value='logout' onclick='logout()' />`
+        }else{
+            document.getElementsByTagName('h2')[0].innerHTML='pass or username salah'
+        }
+    }
+
+    const logout=()=>{
+        document.getElementsByTagName('h2')[0].innerHTML=''
+        document.getElementsByTagName('p')[0].innerHTML=``
+        document.getElementById('username').value=''
+        document.getElementById('password').value=''
+    }
+</script>
+</html>

@@ -116,21 +116,21 @@ class Strength extends Hero{
     }
 }
 
-class Intelegence extends Hero{
-    constructor(a,armor,intel){
-        super(a,armor)
-        this.int=intel
-    }
-    kalimat=(namahero)=>{
-        return `${namahero} punya intelliegence ${this.int}`
-    }
-    static isintellegence=(intel)=>{
-        return intel>25?'hero intel':'noob'
-    }
-}
+// class Intelegence extends Hero{
+//     constructor(a,armor,intel){
+//         super(a,armor)
+//         this.int=intel
+//     }
+//     kalimat=(namahero)=>{
+//         return `${namahero} punya intelliegence ${this.int}`
+//     }
+//     static isintellegence=(intel)=>{
+//         return intel>25?'hero intel':'noob'
+//     }
+// }
 
-var a=Intelegence.isintellegence(30)
-console.log(a)
+// var a=Intelegence.isintellegence(30)
+// console.log(a)
 // var axe=new Strength(100,5,20)
 
 // var crystalmaiden=new Intelegence(40,1,30).kalimat('Crystal Maiden')
@@ -138,28 +138,72 @@ console.log(a)
 // console.log(crystalmaiden)
 
 
-const anggi=(boll)=>{
-    return boll? 'rafi':'hana'
-}
+// const anggi=(boll)=>{
+//     return boll? 'rafi':'hana'
+// }
 
-const robin=(cb,boold)=>{
-    if(cb(boold)==='rafi'){
-        return ()=>{
-            return {
-                hasian:['marcellino']
+// const robin=(cb,boold)=>{
+//     if(cb(boold)==='rafi'){
+//         return ()=>{
+//             return {
+//                 hasian:['marcellino']
+//             }
+//         }
+//     }else if(cb(boold)==='hana'){
+//         return ()=>{
+//             return{
+//                 hasian:['mag']
+//             }
+//         }
+//     }
+// }
+
+
+// console.log(robin(anggi,false)().hasian[0])//marcelino //mag
+
+
+
+console.log(isNaN('a'))
+
+
+function kekuatanpass(input=''){
+    var hurufbesar='ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+    var output=0
+    var hurufbesars=false
+    var hurfkecil=false
+    var angka=false
+    for(var i=0;i<input.length;i++){
+        if(isNaN(input[i])){
+            for(var j=0;j<hurufbesar.length;j++){
+                if(input[i]===hurufbesar[j].toUpperCase()&&!hurufbesars){
+                    output++
+                    hurufbesars=true
+                    continue
+                }else if(input[i]===hurufbesar[j].toLowerCase()&&!hurfkecil){
+                    output++
+                    hurfkecil=true
+                    continue
+                }
             }
-        }
-    }else if(cb(boold)==='hana'){
-        return ()=>{
-            return{
-                hasian:['mag']
-            }
+        }else if(!angka){
+            output++
+            angka=true
         }
     }
+    return output
+
 }
 
+console.log(kekuatanpass('Ab1a'))
+console.log(kekuatanpass('Abaa'))
+console.log(kekuatanpass('abaa'))
 
-console.log(robin(anggi,false)().hasian[0])//marcelino //mag
+
+
+
+
+
+
 
 
 
