@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>List todo</title>
+    <style>
+        th,td,table{
+            border-collapse: collapse;
+            border:1px solid rebeccapurple;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+    <center>
+        <h1>List todo</h1>
+        <table>
+            <thead>
+                <tr>
+                    <td>No.</td>
+                    <td>Kegiatan</td>
+                    <td>Foto</td>
+                    <td>Hari</td>
+                    <td>Action</td>
+                </tr>
+            </thead>
+            <tbody id='isi'>
+
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td></td>
+                    <td><input type="text" placeholder="kegiatan" id="kegiatan"></td>
+                    <td><input type="text" placeholder="gambar" id="gambar"></td>
+                    <td><select id="Hari">
+                        
+                    </select></td>
+                    <td><input type="button" value="add" onclick="onaddClick()"></td>
+                </tr>
+            </tfoot>
+        </table>
+    </center>
+</body>
+<script src="./listtodo.js"></script>
+</html>
