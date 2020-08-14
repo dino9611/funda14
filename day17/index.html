@@ -1,0 +1,28 @@
+<script>
+    do {
+        var a=prompt('masukkan huruf tinggi')
+    } while (a<=0);
+    
+    function segitiga(tinggi){
+        var output=''
+        for(let i=0;i<tinggi;i++){
+            for(let j=i;j<tinggi;j++){
+                output+=' '
+            }
+            for(let k=0;k<=i;k++){
+                output+='*'
+            }
+            for(let l=0;l<=i-1;l++){
+                output+='*'
+            }
+            output+='\n'
+        }
+        alert(output)
+    }
+    segitiga(a)
+    
+    // alert(segitiga(a))
+    var input=prompt('lagi tingginya berapa')
+    // alert( segitiga(input) )
+
+</script>
